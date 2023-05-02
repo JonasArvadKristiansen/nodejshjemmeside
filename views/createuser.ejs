@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Opret</title>
 </head>
 <body>
-    
+    <form action="/create" method="post">
+        <label for="emailLabel">Email: </label>
+        <input type="email" id="emailInput" name="emailInput" placeholder="skriv email">
+        <label for="passwordLabel">Adgangskode: </label>
+        <input type="password" id="passwordInput" name="passwordInput" placeholder="Skriv adgangskode">
+        <label for="repeatPasswordLabel">Gentag adgangskode: </label>
+        <input type="password" id="repeatPasswordInput" name="repeatPasswordInput" placeholder="Gentag adgangskode">
+        <input type="submit" value="Opret bruger">
+    </form>
 </body>
 </html>
