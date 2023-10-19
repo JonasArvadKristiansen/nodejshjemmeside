@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const db = require('../utils/mysql')
+const jwttokensign = require('../utils/jwt')
 
 const loginUser = ((req, res) => {
     let email = req.body.emailInput;
@@ -18,6 +19,8 @@ const loginUser = ((req, res) => {
 
             //pwCheck return true if they match
             if (passwordhashed) {
+                const jwt = jwttokensign.createJWT(email)
+                console.log(jwt)
                 res.render('index');
             } else {
                 res.render('login');
