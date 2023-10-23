@@ -1,64 +1,71 @@
 const bcrypt = require('bcrypt');
-const db = require('../utils/mysql')
-const jwttokensign = require('../utils/jwt')
+const db = require('../utils/mysql');
+const jwttokensign = require('../utils/jwt');
 
-const loginUser = ((req, res) => {
-    let email = req.body.emailInput;
-    let password = req.body.passwordInput;
+const loginUser = async (req, res) => {
+    let email =  req.body.email;
+    let password = req.body.password;
 
     //select * from database mathing the parameter
     db.query('SELECT * FROM users WHERE email = ?', email, (err, data) => {
-        if (typeof(data) != "undefined" ) {
-            if(data.length > 0)
-            {
+        console.log("1")
+        if (typeof data != 'undefined') {
+            if (data.length > 0) {
                 // tjekking if typed password match hashed password from database
-            let passwordhashed = bcrypt.compareSync(
-                password,
-                data[0].userpassword
-            );
+                let passwordhashed = bcrypt.compareSync(
+                    password,
+                    data[0].userpassword
+                );
 
-            //pwCheck return true if they match
-            if (passwordhashed) {
-                const jwt = jwttokensign.createJWT(email)
-                console.log(jwt)
-                res.render('index');
-            } else {
-                res.render('login');
-            }
+                //pwCheck return true if they match
+                if (passwordhashed) {
+                    let jwt = jwttokensign.createJWT(email);
+                    return jwt
+                    //res.render('index');
+                } else {
+                    res.render('login');
+                }
             }
         } else {
             res.render('login');
         }
     });
-});
+};
 
-const createUser = ((req, res) => {
-    let email = req.body.emailInput;
-    let password = req.body.passwordInput;
-    let repeatPassword = req.body.repeatPasswordInput;
-
-    db.query('SELECT * FROM users WHERE email = ?', email, (err, data) => {
-        if (typeof(data) != "undefined" ) {
-        if (data.length == 0) {
-            if (password == repeatPassword) {
-                //hashing password user typed
-                let hashPassword = bcrypt.hashSync(password, 10);
-
-                // inserting user into database
-                db.query('INSERT INTO users (email, userpassword) VALUES (?, ?)',[email, hashPassword]);
-                res.render('login');
+const userExist = async (email) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM users WHERE email = ?', email, (err, data) => {
+            if(err) {
+                //reject the promise if error
+                reject(err)
             } else {
-                console.log('Not a match');
+                //resolve with true or false based on the query result
+                resolve(data.length > 0)
             }
-        } else {
-            console.log("user already exist");
-            res.render('createuser');
-        }
-        }
+        });
     });
-});
+};
+
+const createUser = async (req) => {
+    const {email, password} = req.body
+
+    //hashing password user typed
+    const hashPassword = bcrypt.hashSync(password, 10);
+
+    // inserting user into database
+    return new Promise((resolve, reject) => {
+        db.execute('INSERT INTO users (email, userpassword) VALUES (?, ?)', [email, hashPassword], (err, data) => {
+            if(err) {
+                reject(err)
+            } else {
+                resolve(data.affectedRows > 0)
+            }
+        });
+    });
+};
 
 module.exports = {
-    createUser, 
-    loginUser
-}
+    userExist,
+    createUser,
+    loginUser,
+};
