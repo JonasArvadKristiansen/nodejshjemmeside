@@ -34,9 +34,11 @@
                     'Content-Type': 'application/json'
                 },
                 body: data,
-            });
+            })
 
-            console.log(await result)
+            if(result.ok) {
+                console.log(result)
+            }
         }
     </script>
 </body>

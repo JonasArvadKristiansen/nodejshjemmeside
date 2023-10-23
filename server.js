@@ -12,7 +12,6 @@ app.use(about);
 app.set('view engine', 'ejs');
 
 // use res.render to load up an ejs view file
-
 app.get('/', (req, res) => {
     res.render('index');
 });
