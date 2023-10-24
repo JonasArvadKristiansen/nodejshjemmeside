@@ -7,7 +7,7 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 
-router.get('/createuser', (req, res) => {
+router.get('/create', (req, res) => {
     res.render('createuser');
 });
 
@@ -20,10 +20,15 @@ router.post('/login', async (req, res) => {
 
     const response = await users.loginUser(req, res);
     if(response) {
-        let jwt = jwttokensign.createJWT(email);
-        return res.status(200).send(jwt)
+        let jwt = jwttokensign.createJWT(req, res);
+        console.log(jwt)
+        if(jwt) {
+            return res.status(200).json('Login success')
+        } else {
+            return res.status(500).json('Token failed to be created')
+        }
     } else {
-        return res.status(500).send('server error 500')
+        return res.status(500).json('Server error 500')
     }
 });
 
@@ -33,19 +38,19 @@ router.post('/create', async (req, res, next) => {
 
     //checking if fields are empty
     if (!(email && password && repeatPassword)) {
-        return res.status(400).send('Input/inputs missing');
+        return res.status(400).json('Input/inputs missing');
     }
 
     //checking if passwords match
     if (password != repeatPassword) {
-        return res.status(409).send('passwords not matching');
+        return res.status(409).json('Passwords not matching');
     }
 
     //checks if user exists
     const userExist = await users.userExist(email);
 
     if (userExist) {
-        return res.status(409).send('User already exists');
+        return res.status(409).json('User already exists');
     }
 
     //sends to next endpoint if all checks are cleared
@@ -54,10 +59,11 @@ router.post('/create', async (req, res, next) => {
 
 router.post('/create', async (req, res) => {
     let result = await users.createUser(req, res);
+    console.log(result)
     if (result) {
-        res.render('login');
+        return res.status(200).json('User created')
     } else {
-        res.redirect('back');
+        return res.status(400).json('Denied creating user')
     }
 });
 

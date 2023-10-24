@@ -7,7 +7,8 @@
     <title>Opret</title>
 </head>
 <body>
-    <form action="/create" method="post">
+    <p id="errortext"></p>
+    <form id="myform">
         <label for="emailLabel">Email: </label>
         <input type="email" id="email" name="email" placeholder="skriv email">
         <label for="passwordLabel">Adgangskode: </label>
@@ -16,5 +17,37 @@
         <input type="password" id="repeatPassword" name="repeatPassword" placeholder="Gentag adgangskode">
         <input type="submit" value="Opret bruger">
     </form>
+
+    <script>
+        const formElements = document.getElementById('myform');
+
+        formElements.addEventListener('submit', event => {
+            event.preventDefault();
+            let formdata = new FormData(formElements);
+            
+            //transforms a list of key-value pairs into an object and into json
+            let data = JSON.stringify(Object.fromEntries(formdata.entries()));
+            fetchLogin(data)
+        });
+
+        async function fetchLogin(data) {
+            let result = await fetch('/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: data,
+            })
+
+            if(result.ok) {
+                document.getElementById('errortext').textContent = await result.json()
+                setTimeout(function () {
+                    window.location.replace('http://localhost:3000/login')
+                }, 2000)
+            } else {
+                document.getElementById('errortext').textContent = await result.json()
+            }
+        }
+    </script>
 </body>
 </html>

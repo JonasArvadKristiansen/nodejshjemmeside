@@ -1,13 +1,14 @@
 const jsonwebtoken = require('jsonwebtoken');
 require('dotenv').config();
 
-function createJWT(email) {
+function createJWT(req, res) {
     const accessToken = jsonwebtoken.sign(
-        { email: email },
+        { email: req.email },
         process.env.TOKEN_SECRET,
         { expiresIn: 60 * 60 }
     );
-    return accessToken;
+    res.cookie('authorization', accessToken, { httpOnly: true, maxAge: 3600000*2 });
+    return true;
 }
 
 function authToken(req, res, next) {
