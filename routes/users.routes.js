@@ -20,15 +20,14 @@ router.post('/login', async (req, res) => {
 
     const response = await users.loginUser(req, res);
     if(response) {
-        let jwt = jwttokensign.createJWT(req, res);
-        console.log(jwt)
+        let jwt = jwttokensign.createJWT(email, res);
         if(jwt) {
             return res.status(200).json('Login success')
         } else {
             return res.status(500).json('Token failed to be created')
         }
     } else {
-        return res.status(500).json('Server error 500')
+        return res.status(404).json('User not found')
     }
 });
 
@@ -59,7 +58,6 @@ router.post('/create', async (req, res, next) => {
 
 router.post('/create', async (req, res) => {
     let result = await users.createUser(req, res);
-    console.log(result)
     if (result) {
         return res.status(200).json('User created')
     } else {

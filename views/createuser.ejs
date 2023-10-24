@@ -5,9 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opret</title>
+
+    <style>
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    
+        .createButton {
+            font-size: 20px;
+            margin: 4px 2px;
+        }
+    </style>
 </head>
 <body>
+    <button class="createButton">
+        <a href="http://localhost:3000/login">Login</a>
+    </button>
+    
     <p id="errortext"></p>
+    
     <form id="myform">
         <label for="emailLabel">Email: </label>
         <input type="email" id="email" name="email" placeholder="skriv email">

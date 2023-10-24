@@ -1,29 +1,26 @@
 const jsonwebtoken = require('jsonwebtoken');
 require('dotenv').config();
 
-function createJWT(req, res) {
+function createJWT(email, res) {
     const accessToken = jsonwebtoken.sign(
-        { email: req.email },
+        { email: email },
         process.env.TOKEN_SECRET,
         { expiresIn: 60 * 60 }
     );
-    res.cookie('authorization', accessToken, { httpOnly: true, maxAge: 3600000*2 });
+    res.cookie('Authorization', accessToken, { httpOnly: true, maxAge: 3600000*2 });
     return true;
 }
 
 function authToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    const token2 = req.cookies.Authorization;
 
-    if (token == null) return res.sendStatus(401);
+    if (token2 == null) {
+        return res.sendStatus(401);
+    }
 
-    jsonwebtoken.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-        console.log(err);
-
+    jsonwebtoken.verify(token2, process.env.TOKEN_SECRET, (err, user) => {
         if (err) return res.sendStatus(403);
-
-        console.log(user);
-
+        console.log(user)
         next();
     });
 }

@@ -9,9 +9,11 @@
 <body>
     <h1>Welcome to Homepage of the website</h1>
     <button>send jwt</button>
-
+    <button id="accessProtected">Access Protected Site</button>
 <script>
-    
+    document.getElementById('accessProtected').addEventListener('click', () => {
+        console.log(document.cookie)
+    });
 </script>
 </body>
 </html>

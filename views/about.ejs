@@ -8,5 +8,22 @@
 </head>
 <body>
     <h1>Coming soon</h1>
+    <button id="accessProtected">Access Protected Site</button>
+
+    <script>
+        document.getElementById('accessProtected').addEventListener('click', () => {
+            console.log(document.cookie)
+            acccesProtectedSite()
+        });
+
+        async function acccesProtectedSite() {
+            let result = await fetch('/about', {
+                method: 'GET',
+                headers: {
+                }
+            })
+            console.log(await result.json())
+        }
+    </script>
 </body>
 </html>
