@@ -11,7 +11,7 @@ function createJWT(email, res) {
         maxAge: 3600000 * 2,
     });
 
-    return res.status(200).json("Login approved")
+    return res.status(200).json('Login approved');
 }
 
 function authToken(req, res, next) {

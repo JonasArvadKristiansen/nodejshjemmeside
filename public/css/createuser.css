@@ -5,5 +5,43 @@ a {
 
 .createButton {
     font-size: 20px;
-    margin: 4px 2px;
+    margin: 4px;
+}
+
+form {
+    text-align: center;
+    width: 20%;
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: lightgreen;
+}
+
+label {
+    float: left;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 4px;
+}
+
+input {
+    width: 100%;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+button {
+    background-color: lightblue;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: blue;
+}
+
+body {
+    background-color: ghostwhite;
 }
