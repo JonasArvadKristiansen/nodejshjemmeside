@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const users = require('../controllers/users');
-const jwttokensign = require('../utils/jwt');
+//const jwtWithHeaders = require('../utils/jwtWithHeaders');
+const jwtWithCookies = require('../utils/jwtWithCookies');
 
 router.get('/login', (req, res) => {
     res.render('login');
@@ -19,15 +20,11 @@ router.post('/login', async (req, res) => {
     }
 
     const response = await users.loginUser(req, res);
-    if(response) {
-        let jwt = jwttokensign.createJWT(email, res);
-        if(jwt) {
-            return res.status(200).json('Login success')
-        } else {
-            return res.status(500).json('Token failed to be created')
-        }
+    if (response) {
+        //jwtWithHeaders.createJWT(email, res);
+        jwtWithCookies.createJWT(email, res);
     } else {
-        return res.status(404).json('User not found')
+        return res.status(404).json('User not found');
     }
 });
 
@@ -59,9 +56,9 @@ router.post('/create', async (req, res, next) => {
 router.post('/create', async (req, res) => {
     let result = await users.createUser(req, res);
     if (result) {
-        return res.status(200).json('User created')
+        return res.status(200).json('User created');
     } else {
-        return res.status(400).json('Denied creating user')
+        return res.status(400).json('Denied creating user');
     }
 });
 

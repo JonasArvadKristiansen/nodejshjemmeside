@@ -44,19 +44,21 @@
             
             //transforms a list of key-value pairs into an object and into json
             let data = JSON.stringify(Object.fromEntries(formdata.entries()));
-            fetchLogin(data)
+            //fetchLoginWithHeaders(data)
+            fetchLoginWithCookies(data)
         });
 
-        async function fetchLogin(data) {
+        async function fetchLoginWithCookies(data) {
             let result = await fetch('/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: data,
-            })
+            });
 
             if(result.ok) {
+                console.log(result)
                 document.getElementById('errortext').textContent = await result.json()
                 setTimeout(function () {
                     window.location.replace('http://localhost:3000/')
@@ -65,6 +67,27 @@
                 document.getElementById('errortext').textContent = await result.json()
             }
         }
+
+        async function fetchLoginWithHeaders(data) {
+            let result = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: data,
+            });
+
+            if(result.ok) {
+                document.getElementById('errortext').textContent = "Login approved"
+                document.cookie = `Authorization=${ await result.json()}; max-age7200;`;
+                setTimeout(function () {
+                    window.location.replace('http://localhost:3000/')
+                }, 2000)
+            } else {
+                document.getElementById('errortext').textContent = await result.json()
+            }
+        }
+
     </script>
 </body>
 </html>

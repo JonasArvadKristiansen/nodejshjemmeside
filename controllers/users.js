@@ -6,27 +6,27 @@ const loginUser = (req) => {
     let password = req.body.password;
 
     return new Promise((resolve, reject) => {
-    //select * from database mathing the parameter
-    db.query('SELECT * FROM users WHERE email = ?', email, (err, data) => {
-        if(err) {
-            reject(err)
-        } else if(data.length > 0) {
-            // tjekking if typed password match hashed password from database
-            let passwordhashed = bcrypt.compareSync(
-                password,
-                data[0].userpassword
-            );
+        //select * from database mathing the parameter
+        db.query('SELECT * FROM users WHERE email = ?', email, (err, data) => {
+            if (err) {
+                reject(err);
+            } else if (data.length > 0) {
+                // tjekking if typed password match hashed password from database
+                let passwordhashed = bcrypt.compareSync(
+                    password,
+                    data[0].userpassword
+                );
 
-            //pwCheck return true if they match
-            if (passwordhashed) {
-                resolve(true)
+                //pwCheck return true if they match
+                if (passwordhashed) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
             } else {
-                resolve(false)
+                resolve(false);
             }
-        } else {
-            resolve(false)
-        }
-    });
+        });
     });
 };
 

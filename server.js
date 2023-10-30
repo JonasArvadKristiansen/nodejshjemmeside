@@ -1,5 +1,5 @@
 const express = require('express');
-const cookieParser = require("cookie-parser");
+const cookieParser = require('cookie-parser');
 const app = express();
 const users = require('./routes/users.routes');
 const about = require('./routes/about.routes');
@@ -9,6 +9,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(users);
 app.use(about);
+
+// Define a static directory where your static files are located (CSS, JS, images).
+app.use(express.static('public'));
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');

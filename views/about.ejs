@@ -9,20 +9,29 @@
 <body>
     <h1>Coming soon</h1>
     <button id="accessProtected">Access Protected Site</button>
+    <p id="userInfo"></p>
 
     <script>
         document.getElementById('accessProtected').addEventListener('click', () => {
             console.log(document.cookie)
-            acccesProtectedSite()
+            acccesProtectedSite(document.cookie.split('=')[1])
         });
 
-        async function acccesProtectedSite() {
-            let result = await fetch('/about', {
+        async function acccesProtectedSite(token) {
+            console.log(token)
+            let result = await fetch('/aboutHeaders', {
                 method: 'GET',
                 headers: {
+                    'authorization': `Bearer ${token}`
                 }
             })
-            console.log(await result.json())
+            if(result.ok) {
+                let data = await result.json()
+                document.getElementById('userInfo').textContent = data.email
+                console.log(data)
+            } else {
+                console.log(await result.text())
+            }
         }
     </script>
 </body>

@@ -7,8 +7,11 @@ function createJWT(email, res) {
         process.env.TOKEN_SECRET,
         { expiresIn: 60 * 60 }
     );
-    res.cookie('Authorization', accessToken, { httpOnly: true, maxAge: 3600000*2 });
-    return true;
+    res.cookie('Authorization', accessToken, {
+        maxAge: 3600000 * 2,
+    });
+
+    return res.status(200).json("Login approved")
 }
 
 function authToken(req, res, next) {
@@ -20,7 +23,7 @@ function authToken(req, res, next) {
 
     jsonwebtoken.verify(token2, process.env.TOKEN_SECRET, (err, user) => {
         if (err) return res.sendStatus(403);
-        console.log(user)
+        console.log(user);
         next();
     });
 }
