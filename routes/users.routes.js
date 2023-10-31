@@ -4,8 +4,15 @@ const users = require('../controllers/users');
 //const jwtWithHeaders = require('../utils/jwtWithHeaders');
 const jwtWithCookies = require('../utils/jwtWithCookies');
 
-router.get('/login', (req, res) => {
-    res.render('login');
+router.get('/login', async (req, res) => {
+    let loginTjek = await jwtWithCookies.tjekIfLogging(req)
+    //let loginTjek = await jwtWithHeaders.tjekIfLogging(req)
+
+    if(loginTjek) {
+        res.redirect('/');
+    } else {
+        res.render('login');
+    }
 });
 
 router.get('/create', (req, res) => {
@@ -60,6 +67,11 @@ router.post('/create', async (req, res) => {
     } else {
         return res.status(400).json('Denied creating user');
     }
+});
+
+router.post('/logout', (req, res) => {
+    res.clearCookie('Authorization')
+    res.status(200).json("User is logged out")
 });
 
 module.exports = router;

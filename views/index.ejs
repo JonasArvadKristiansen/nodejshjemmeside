@@ -5,11 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <script src="/js/logout.js"></script>
     <title>Homepage</title>
 </head>
 <body>
+    <ul>
+        <li><a class="active" href="http://localhost:3000/">Home</a></li>
+        <li><a href="http://localhost:3000/about">About</a></li>
+        <li style="float:right"><a class="active" href="/login">Login</a></li>
+        <li style="float:right"><a class="active" onclick="logout()">Logout</a></li>
+    </ul>
+
     <h1>Welcome to Homepage of the website</h1>
-    <button id="accessProtected">Access Protected Site</button>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius suscipit accusamus quo libero molestias cupiditate possimus at ullam magni? Officia optio suscipit voluptate eaque nulla eveniet quaerat cum dignissimos obcaecati!</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius suscipit accusamus quo libero molestias cupiditate possimus at ullam magni? Officia optio suscipit voluptate eaque nulla eveniet quaerat cum dignissimos obcaecati!</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius suscipit accusamus quo libero molestias cupiditate possimus at ullam magni? Officia optio suscipit voluptate eaque nulla eveniet quaerat cum dignissimos obcaecati!</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius suscipit accusamus quo libero molestias cupiditate possimus at ullam magni? Officia optio suscipit voluptate eaque nulla eveniet quaerat cum dignissimos obcaecati!</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius suscipit accusamus quo libero molestias cupiditate possimus at ullam magni? Officia optio suscipit voluptate eaque nulla eveniet quaerat cum dignissimos obcaecati!</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius suscipit accusamus quo libero molestias cupiditate possimus at ullam magni? Officia optio suscipit voluptate eaque nulla eveniet quaerat cum dignissimos obcaecati!</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius suscipit accusamus quo libero molestias cupiditate possimus at ullam magni? Officia optio suscipit voluptate eaque nulla eveniet quaerat cum dignissimos obcaecati!</p>
+
+    <button id="accessProtected">Access cookie</button>
 <script>
     document.getElementById('accessProtected').addEventListener('click', () => {
         console.log(document.cookie)

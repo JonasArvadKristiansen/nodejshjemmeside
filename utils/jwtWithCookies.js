@@ -21,14 +21,32 @@ function authToken(req, res, next) {
         return res.sendStatus(401);
     }
 
-    jsonwebtoken.verify(token2, process.env.TOKEN_SECRET, (err, user) => {
+    jsonwebtoken.verify(token2, process.env.TOKEN_SECRET, (err) => {
         if (err) return res.sendStatus(403);
-        console.log(user);
         next();
     });
+}
+
+function tjekIfLogging(req) {
+    return new Promise((resolve, reject) => {
+        const token2 = req.cookies.Authorization;
+
+    if (token2 == null) {
+        resolve(false)
+    }
+
+    jsonwebtoken.verify(token2, process.env.TOKEN_SECRET, (err) => {
+        if (err) {
+            reject(err)
+        } 
+        
+        resolve(true)
+    });    
+    })
 }
 
 module.exports = {
     authToken,
     createJWT,
+    tjekIfLogging,
 };
