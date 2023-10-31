@@ -5,18 +5,25 @@ const users = require('../controllers/users');
 const jwtWithCookies = require('../utils/jwtWithCookies');
 
 router.get('/login', async (req, res) => {
-    let loginTjek = await jwtWithCookies.tjekIfLogging(req)
+    let loginTjek = await jwtWithCookies.tjekIfLogging(req);
     //let loginTjek = await jwtWithHeaders.tjekIfLogging(req)
 
-    if(loginTjek) {
+    if (loginTjek) {
         res.redirect('/');
     } else {
         res.render('login');
     }
 });
 
-router.get('/create', (req, res) => {
-    res.render('createuser');
+router.get('/create', async (req, res) => {
+    let loginTjek = await jwtWithCookies.tjekIfLogging(req);
+    //let loginTjek = await jwtWithHeaders.tjekIfLogging(req)
+
+    if (loginTjek) {
+        res.redirect('/');
+    } else {
+        res.render('createuser');
+    }
 });
 
 router.post('/login', async (req, res) => {
@@ -70,8 +77,8 @@ router.post('/create', async (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-    res.clearCookie('Authorization')
-    res.status(200).json("User is logged out")
+    res.clearCookie('Authorization');
+    res.status(200).json('User is logged out');
 });
 
 module.exports = router;

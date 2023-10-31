@@ -32,18 +32,18 @@ function tjekIfLogging(req) {
     return new Promise((resolve, reject) => {
         const token2 = req.cookies.Authorization;
 
-    if (token2 == null) {
-        resolve(false)
-    }
+        if (token2 == null) {
+            resolve(false);
+        }
 
-    jsonwebtoken.verify(token2, process.env.TOKEN_SECRET, (err) => {
-        if (err) {
-            reject(err)
-        } 
-        
-        resolve(true)
-    });    
-    })
+        jsonwebtoken.verify(token2, process.env.TOKEN_SECRET, (err) => {
+            if (err) {
+                reject(err);
+            }
+
+            resolve(true);
+        });
+    });
 }
 
 module.exports = {
