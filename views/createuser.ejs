@@ -47,7 +47,7 @@
             if(result.ok) {
                 document.getElementById('errortext').textContent = await result.json()
                 setTimeout(function () {
-                    window.location.replace('http://localhost:3000/login')
+                    window.location.href = '/login';
                 }, 2000)
             } else {
                 document.getElementById('errortext').textContent = await result.json()
