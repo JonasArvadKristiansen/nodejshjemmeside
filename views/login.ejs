@@ -49,11 +49,11 @@
                     {
                         document.cookie = `Authorization=${result}; max-age7200;`;
                         setTimeout(function () {
-                        window.location.replace('http://localhost:3000/')
+                            window.location.href = '/';
                         }, 2000)        
                     } else {
                         setTimeout(function () {
-                        window.location.replace('http://localhost:3000/')
+                            window.location.href = '/';
                         }, 2000)
                     } 
                 } else {

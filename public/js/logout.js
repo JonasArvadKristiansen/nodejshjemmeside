@@ -1,4 +1,5 @@
 /* eslint-disable */
+// to logout a user from website
 async function logout() {
     let result = await fetch('/logout', {
         method: 'POST',

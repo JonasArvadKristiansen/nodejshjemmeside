@@ -69,6 +69,7 @@ router.post('/create', async (req, res, next) => {
 
 router.post('/create', async (req, res) => {
     let result = await users.createUser(req, res);
+    console.log(result)
     if (result) {
         return res.status(200).json('User created');
     } else {

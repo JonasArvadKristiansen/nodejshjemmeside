@@ -5,10 +5,12 @@ const loginUser = (req) => {
     let email = req.body.email;
     let password = req.body.password;
 
+    //had to wrap in a promise in order to return true or false. If i did not it returned before value was resolved
     return new Promise((resolve, reject) => {
         //select * from database mathing the parameter
         db.query('SELECT * FROM users WHERE email = ?', email, (err, data) => {
             if (err) {
+                //reject the promise if error
                 reject(err);
             } else if (data.length > 0) {
                 // tjekking if typed password match hashed password from database
@@ -30,6 +32,7 @@ const loginUser = (req) => {
     });
 };
 
+//had to wrap in a promise in order to return true or false. If i did not it returned before value was resolved
 const userExist = (email) => {
     return new Promise((resolve, reject) => {
         db.query('SELECT * FROM users WHERE email = ?', email, (err, data) => {
@@ -49,14 +52,14 @@ const createUser = (req) => {
 
     //hashing password user typed
     const hashPassword = bcrypt.hashSync(password, 10);
-
-    // inserting user into database
+    //had to wrap in a promise in order to return true or false. If i did not it returned before value was resolved
     return new Promise((resolve, reject) => {
         db.execute(
             'INSERT INTO users (email, userpassword) VALUES (?, ?)',
             [email, hashPassword],
             (err, data) => {
                 if (err) {
+                    //reject the promise if error
                     reject(err);
                 } else {
                     resolve(data.affectedRows > 0);

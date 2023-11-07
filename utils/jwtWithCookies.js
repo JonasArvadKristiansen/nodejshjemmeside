@@ -1,6 +1,7 @@
 const jsonwebtoken = require('jsonwebtoken');
 require('dotenv').config();
 
+//creating token for user
 function createJWT(email, res) {
     const accessToken = jsonwebtoken.sign(
         { email: email },
@@ -14,6 +15,7 @@ function createJWT(email, res) {
     return res.status(200).json('Login approved');
 }
 
+//tjekking if user token is vaild
 function authToken(req, res, next) {
     const token2 = req.cookies.Authorization;
 
@@ -27,6 +29,8 @@ function authToken(req, res, next) {
     });
 }
 
+
+//tjekking if user has already a token
 function tjekIfLogging(req) {
     return new Promise((resolve, reject) => {
         const token2 = req.cookies.Authorization;
